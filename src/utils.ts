@@ -31,3 +31,14 @@ export const formatEntityToTable = (
     ...entityResults,
   };
 };
+
+export const checkHasPlayedVersus = (
+  playingEntity: PlayingEntity,
+  versusEntityName: string
+) => {
+  return Boolean(
+    playingEntity.matchesHistory.find(
+      (m) => m.playedVersus === versusEntityName
+    )
+  );
+};

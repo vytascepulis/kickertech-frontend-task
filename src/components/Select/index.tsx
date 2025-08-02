@@ -1,12 +1,13 @@
-interface Props {
+interface Props extends React.SelectHTMLAttributes<HTMLSelectElement> {
   options: { value: string; label: string }[];
   placeholder?: string;
 }
 
-const Select = ({ options, placeholder }: Props) => {
+const Select = ({ placeholder, children, ...rest }: Props) => {
   return (
     <select
-      defaultValue=''
+      {...rest}
+      value={rest.value || ''}
       className='grow rounded-md border border-gray-300 bg-neutral-100 px-2 py-1 font-semibold'
     >
       {placeholder && (
@@ -14,11 +15,7 @@ const Select = ({ options, placeholder }: Props) => {
           {placeholder}
         </option>
       )}
-      {options.map((option) => (
-        <option key={option.value} value={option.value}>
-          {option.label}
-        </option>
-      ))}
+      {children}
     </select>
   );
 };

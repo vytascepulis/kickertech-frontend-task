@@ -1,9 +1,9 @@
-import PremierLeagueTable from 'containers/PremierLeagueTable';
+import PremierLeague from 'containers/PremierLeague';
 
 function App() {
   return (
     <div className='flex h-screen items-center justify-center'>
-      <PremierLeagueTable />
+      <PremierLeague />
     </div>
   );
 }
