@@ -13,14 +13,24 @@ export const handleSort = <T>(
 
   const { field, order } = sortOptions;
 
-  return data.sort((a, b) => {
+  return [...data].sort((a, b) => {
     const valA = column?.render ? column.render(a) : a[field];
     const valB = column?.render ? column.render(b) : b[field];
 
     if (order === 'asc') {
-      return (valA || 0) > (valB || 0) ? 1 : -1;
+      return (valA || 0) < (valB || 0) ? 1 : -1;
     }
 
-    return (valA || 0) < (valB || 0) ? 1 : -1;
+    return (valA || 0) > (valB || 0) ? 1 : -1;
   });
+};
+
+export const getNextSort = <T>(
+  column: Column<T>,
+  sortOptions?: SortOptions<T>
+) => {
+  if (sortOptions?.field !== column.key) return 'asc';
+  if (sortOptions.order === 'asc') return 'desc';
+
+  return null;
 };

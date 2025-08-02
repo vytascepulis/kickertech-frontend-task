@@ -1,6 +1,6 @@
 export interface Column<T> {
-  title?: string;
-  maxWidth?: number;
+  title: string;
+  width: number;
   key: keyof T;
   render?: (row: T) => React.ReactNode;
   sortable?: boolean;
