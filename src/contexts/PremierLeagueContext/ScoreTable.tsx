@@ -2,6 +2,7 @@ import Table from 'components/Table';
 import type { Column, TableOptions } from 'components/Table/types.ts';
 import type { TablePlayingEntity } from 'types.ts';
 import { usePremierLeagueContext } from 'contexts/PremierLeagueContext/index.tsx';
+import { formatEntityToTable } from 'utils.ts';
 
 const columns: Column<TablePlayingEntity>[] = [
   { title: 'Team', key: 'name', width: 130, sortable: true },
@@ -22,7 +23,8 @@ const tableOptions: TableOptions<TablePlayingEntity> = {
 };
 
 const ScoreTable = () => {
-  const { tableData } = usePremierLeagueContext();
+  const { data } = usePremierLeagueContext();
+  const tableData = data.map((d) => formatEntityToTable(d));
 
   return <Table columns={columns} data={tableData} options={tableOptions} />;
 };

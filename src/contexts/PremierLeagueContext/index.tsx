@@ -12,7 +12,8 @@ interface Context {
   awayTeamName: string;
   homeTeamScore: string;
   awayTeamScore: string;
-  tableData: TablePlayingEntity[];
+  data: PlayingEntity[];
+  errors: Errors;
   onAddTeamChange: (val: string) => void;
   onAddScoreChange: (field: string, val: string) => void;
   onAddTeam: () => void;
@@ -26,13 +27,19 @@ interface IAddScoreForm {
   awayTeamScore: string;
 }
 
+interface Errors {
+  addTeam: string | null;
+  addScore: string | null;
+}
+
 const PremierLeagueContext = createContext<Context>({
   addTeamInput: '',
   homeTeamName: '',
   awayTeamName: '',
   homeTeamScore: '',
   awayTeamScore: '',
-  tableData: [],
+  data: [],
+  errors: { addTeam: null, addScore: null },
   onAddTeamChange: () => {},
   onAddScoreChange: () => {},
   onAddTeam: () => {},
@@ -83,7 +90,14 @@ const PremierLeagueProvider = ({ children }: Props) => {
     awayTeamScore: '',
   });
   const [data, setData] = useState<PlayingEntity[]>(rawData);
-  const tableData = data.map((d) => formatEntityToTable(d));
+  const [errors, setErrors] = useState<Errors>({
+    addTeam: null,
+    addScore: null,
+  });
+
+  const handleSetError = (field: keyof Errors, message: string | null) => {
+    setErrors((prevState) => ({ ...prevState, [field]: message }));
+  };
 
   const onAddTeamChange = (val: string) => {
     setAddTeamInput(val);
@@ -94,7 +108,27 @@ const PremierLeagueProvider = ({ children }: Props) => {
   };
 
   const onAddTeam = () => {
-    console.log('add: ', addTeamInput);
+    handleSetError('addTeam', null);
+    setErrors((prevState) => ({ ...prevState, addTeam: null }));
+
+    if (!addTeamInput.length) {
+      handleSetError('addTeam', 'Team name cannot be empty');
+      return;
+    }
+
+    const foundTeam = data.find((i) => i.name === addTeamInput);
+
+    if (foundTeam) {
+      handleSetError('addTeam', 'Team name already exists');
+      return;
+    }
+
+    setData((prevState) => [
+      ...prevState,
+      { name: addTeamInput, matchesHistory: [] },
+    ]);
+
+    setAddTeamInput('');
   };
 
   const onAddScore = () => {
@@ -106,7 +140,8 @@ const PremierLeagueProvider = ({ children }: Props) => {
       value={{
         addTeamInput,
         ...addScoreForm,
-        tableData,
+        data,
+        errors,
         onAddTeamChange,
         onAddScoreChange,
         onAddTeam,
