@@ -1,10 +1,9 @@
 interface Props {
   options: { value: string; label: string }[];
-  selected?: string;
   placeholder?: string;
 }
 
-const Select = ({ options, selected, placeholder }: Props) => {
+const Select = ({ options, placeholder }: Props) => {
   return (
     <select
       defaultValue=''
@@ -16,11 +15,7 @@ const Select = ({ options, selected, placeholder }: Props) => {
         </option>
       )}
       {options.map((option) => (
-        <option
-          key={option.value}
-          value={option.value}
-          selected={selected === option.value}
-        >
+        <option key={option.value} value={option.value}>
           {option.label}
         </option>
       ))}

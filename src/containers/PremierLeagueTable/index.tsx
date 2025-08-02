@@ -5,8 +5,9 @@ import Button from 'components/Button';
 import Select from 'components/Select';
 import Table from 'components/Table';
 import type { Column, TableOptions } from 'components/Table/types.ts';
-import type { TablePlayingEntity } from 'types.ts';
-import { matchesToPoints } from 'utils.ts';
+import type { PlayingEntity, TablePlayingEntity } from 'types.ts';
+import { formatEntityToTable } from 'utils.ts';
+import { useState } from 'react';
 
 const columns: Column<TablePlayingEntity>[] = [
   { title: 'Team', key: 'name', width: 100, sortable: true },
@@ -18,16 +19,43 @@ const columns: Column<TablePlayingEntity>[] = [
     title: 'Pts',
     key: 'points',
     width: 50,
-    render: ({ wins, draws }) => matchesToPoints(wins, draws),
     sortable: true,
   },
 ];
 
-const data: TablePlayingEntity[] = [
-  { name: 'Man U', matchesPlayed: 3, wins: 2, draws: 1, losses: 0 },
-  { name: 'Liverpool', matchesPlayed: 3, wins: 2, draws: 0, losses: 1 },
-  { name: 'Arsenal', matchesPlayed: 3, wins: 1, draws: 2, losses: 0 },
-  { name: 'Chelsea', matchesPlayed: 3, wins: 1, draws: 1, losses: 1 },
+const data: PlayingEntity[] = [
+  {
+    name: 'Man U',
+    matchesHistory: [
+      { playedVersus: 'Arsenal', result: 'WIN' },
+      { playedVersus: 'Liverpool', result: 'DRAW' },
+      { playedVersus: 'Chelsea', result: 'WIN' },
+    ],
+  },
+  {
+    name: 'Liverpool',
+    matchesHistory: [
+      { playedVersus: 'Chelsea', result: 'WIN' },
+      { playedVersus: 'Man U', result: 'DRAW' },
+      { playedVersus: 'Arsenal', result: 'WIN' },
+    ],
+  },
+  {
+    name: 'Arsenal',
+    matchesHistory: [
+      { playedVersus: 'Man U', result: 'LOSE' },
+      { playedVersus: 'Chelsea', result: 'DRAW' },
+      { playedVersus: 'Liverpool', result: 'LOSE' },
+    ],
+  },
+  {
+    name: 'Chelsea',
+    matchesHistory: [
+      { playedVersus: 'Liverpool', result: 'LOSE' },
+      { playedVersus: 'Arsenal', result: 'DRAW' },
+      { playedVersus: 'Man U', result: 'LOSE' },
+    ],
+  },
 ];
 
 const tableOptions: TableOptions<TablePlayingEntity> = {
@@ -35,6 +63,9 @@ const tableOptions: TableOptions<TablePlayingEntity> = {
 };
 
 const PremierLeagueTable = () => {
+  const [teamsData, setTeamsData] = useState<PlayingEntity[]>(data);
+  const tableData = teamsData.map((d) => formatEntityToTable(d));
+
   return (
     <div className='max-w-[400px] overflow-hidden rounded-xl border border-neutral-200 shadow-lg'>
       <div className='bg-[#37003c] p-4 text-2xl font-semibold text-white'>
@@ -64,7 +95,7 @@ const PremierLeagueTable = () => {
             <Button className='col-span-2'>Add Score</Button>
           </div>
         </div>
-        <Table columns={columns} data={data} options={tableOptions} />
+        <Table columns={columns} data={tableData} options={tableOptions} />
       </div>
     </div>
   );
