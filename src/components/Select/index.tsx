@@ -43,7 +43,7 @@ const Select = ({
     <div
       {...rest}
       ref={containerRef}
-      className='relative'
+      className='relative w-full'
       tabIndex={0}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -53,7 +53,7 @@ const Select = ({
       }}
     >
       <div
-        className={`cursor-pointer rounded border border-gray-300 bg-gray-100 px-3 py-2 font-medium`}
+        className={`cursor-pointer rounded border border-gray-300 bg-gray-100 px-3 py-1 font-medium`}
         onClick={() => setIsOpen((open) => !open)}
       >
         {selectedOption ? selectedOption.label : placeholder}

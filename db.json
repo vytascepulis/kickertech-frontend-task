@@ -2,5 +2,38 @@
   "premierLeague": {
     "participants": [],
     "matches": []
+  },
+  "euroBasket": {
+    "participants": [
+      {
+        "id": "de3db4af-cc62-4878-8e79-e4ba7f9a93da",
+        "name": "LT"
+      },
+      {
+        "id": "e0fe32e2-05d8-4462-8be2-98de50a3bba7",
+        "name": "LV"
+      },
+      {
+        "id": "4583a111-1859-4753-b464-bd674fab3958",
+        "name": "EE"
+      }
+    ],
+    "matches": [
+      {
+        "participantA": {
+          "id": "e0fe32e2-05d8-4462-8be2-98de50a3bba7",
+          "score": "123"
+        },
+        "participantB": {
+          "id": "de3db4af-cc62-4878-8e79-e4ba7f9a93da",
+          "score": "3"
+        },
+        "winner": "e0fe32e2-05d8-4462-8be2-98de50a3bba7"
+      }
+    ]
+  },
+  "wimbledon": {
+    "participants": [],
+    "matches": []
   }
 }

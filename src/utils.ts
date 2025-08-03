@@ -1,4 +1,5 @@
 import type { Match, PlayingEntity, TablePlayingEntity } from 'types.ts';
+import countries from './countries.json';
 
 export const matchesToPoints = (wins: number, draws: number) => {
   return wins * 3 + draws;
@@ -77,4 +78,10 @@ export const sanitizeNumberInput = (
   if (event.currentTarget.value === '0') {
     event.preventDefault();
   }
+};
+
+export const getCountryByCode = (
+  code: string
+): { code: string; name: string; emoji: string } | undefined => {
+  return countries.find((country) => country.code === code);
 };
