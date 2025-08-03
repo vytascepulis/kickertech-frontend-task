@@ -34,12 +34,10 @@ export const formatEntityToTable = (
 
 export const checkHasPlayedVersus = (
   playingEntity: PlayingEntity,
-  versusEntityName: string
+  versusEntityId: string
 ) => {
   return Boolean(
-    playingEntity.matchesHistory.find(
-      (m) => m.playedVersus === versusEntityName
-    )
+    playingEntity.matchesHistory.find((m) => m.playedVersus === versusEntityId)
   );
 };
 

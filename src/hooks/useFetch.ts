@@ -1,27 +1,30 @@
 import axios from 'axios';
 
-interface HandleFetchParams<IData> {
+interface HandleFetchParams<TRes, TData> {
   endpoint: string;
-  onSuccess: (data: IData) => void;
-  onError: (err: string) => void;
+  onSuccess?: (data: TRes) => void;
+  onError?: (err: string) => void;
   onFinish?: () => void;
   method?: 'POST' | 'GET' | 'PUT';
+  data?: TData;
 }
 
 const useFetch = () => {
-  const handleFetch = async <IData>({
+  const handleFetch = async <TRes, TData = undefined>({
     endpoint,
     onSuccess,
     onError,
     onFinish,
     method = 'GET',
-  }: HandleFetchParams<IData>) => {
+    data,
+  }: HandleFetchParams<TRes, TData>) => {
     try {
-      const res = await axios<IData>({
+      const res = await axios<TRes>({
         method,
         url: `${import.meta.env.VITE_ENDPOINT_URL}/${endpoint}`,
+        data,
       });
-      onSuccess(res.data);
+      onSuccess?.(res.data);
     } catch (err) {
       let message = 'Unknown error';
 
@@ -31,7 +34,7 @@ const useFetch = () => {
         message = err.message;
       }
 
-      onError(message);
+      onError?.(message);
     } finally {
       onFinish?.();
     }

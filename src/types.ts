@@ -4,9 +4,12 @@ interface MatchHistory {
 }
 
 export interface PlayingEntity {
+  id: string;
   name: string;
   matchesHistory: MatchHistory[];
 }
+
+export type PlayingEntityWithoutId = Omit<PlayingEntity, 'id'>;
 
 export interface TablePlayingEntity {
   name: PlayingEntity['name'];

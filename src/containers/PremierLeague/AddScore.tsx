@@ -28,40 +28,32 @@ const AddScore = () => {
     reset();
   };
 
-  const formatOptionValue = (label: string) => {
-    return label.toLowerCase().replaceAll(' ', '-');
-  };
-
-  const allTeams = data.map((team) => team.name);
-
   const [selectedHomeTeam, selectedAwayTeam] = watch([
-    'homeTeamName',
-    'awayTeamName',
+    'homeTeamId',
+    'awayTeamId',
   ]);
 
-  const getFilteredTeams = (filteredName: string) => {
-    return [...allTeams]
-      .filter((team) => team !== filteredName)
+  const getFilteredTeams = (filteredId: string) => {
+    return [...data]
+      .filter((team) => team.id !== filteredId)
       .map((team) => (
-        <option key={formatOptionValue(team)} value={team}>
-          {team}
+        <option key={team.id} value={team.id}>
+          {team.name}
         </option>
       ));
   };
 
-  const validateHasPlayedAgainst: RegisterOptions<
-    IAddScoreForm,
-    'homeTeamName'
-  > = {
-    validate: (value, { awayTeamName }) => {
-      const homeTeamEntity = data.find((t) => t.name === value)!;
+  const validateHasPlayedAgainst: RegisterOptions<IAddScoreForm, 'homeTeamId'> =
+    {
+      validate: (value, { awayTeamId }) => {
+        const homeTeamEntity = data.find((t) => t.name === value)!;
 
-      return (
-        !checkHasPlayedVersus(homeTeamEntity, awayTeamName) ||
-        'Selected teams have already played each other'
-      );
-    },
-  };
+        return (
+          !checkHasPlayedVersus(homeTeamEntity, awayTeamId) ||
+          'Selected teams have already played each other'
+        );
+      },
+    };
 
   const errorMessages = Object.values(errors).map((error) => error.message);
 
@@ -74,7 +66,7 @@ const AddScore = () => {
       <div className='grid grid-cols-2 grid-rows-3 gap-2'>
         <Select
           value={selectedHomeTeam ? undefined : ''}
-          {...register('homeTeamName', {
+          {...register('homeTeamId', {
             required: 'Select home team',
             ...validateHasPlayedAgainst,
           })}
@@ -84,7 +76,7 @@ const AddScore = () => {
         </Select>
         <Select
           value={selectedAwayTeam ? undefined : ''}
-          {...register('awayTeamName', { required: 'Select away team' })}
+          {...register('awayTeamId', { required: 'Select away team' })}
           placeholder='Away Team'
         >
           {getFilteredTeams(selectedHomeTeam)}

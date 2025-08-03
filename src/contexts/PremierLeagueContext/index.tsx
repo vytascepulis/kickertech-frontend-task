@@ -5,7 +5,7 @@ import {
   useEffect,
   useState,
 } from 'react';
-import type { PlayingEntity } from 'types.ts';
+import type { PlayingEntity, PlayingEntityWithoutId } from 'types.ts';
 import useFetch from 'hooks/useFetch.ts';
 
 interface Props {
@@ -21,9 +21,9 @@ interface Context {
 }
 
 export interface IAddScoreForm {
-  homeTeamName: string;
+  homeTeamId: string;
   homeTeamScore: string;
-  awayTeamName: string;
+  awayTeamId: string;
   awayTeamScore: string;
 }
 
@@ -35,59 +35,37 @@ const PremierLeagueContext = createContext<Context>({
   onAddScore: () => {},
 });
 
-const rawData: PlayingEntity[] = [
-  {
-    name: 'Liverpool',
-    matchesHistory: [
-      { playedVersus: 'Chelsea', result: 'WIN' },
-      { playedVersus: 'Man U', result: 'LOSE' },
-      { playedVersus: 'Arsenal', result: 'WIN' },
-    ],
-  },
-  {
-    name: 'Man U',
-    matchesHistory: [
-      { playedVersus: 'Arsenal', result: 'WIN' },
-      { playedVersus: 'Liverpool', result: 'WIN' },
-      { playedVersus: 'Chelsea', result: 'WIN' },
-    ],
-  },
-  {
-    name: 'Arsenal',
-    matchesHistory: [
-      { playedVersus: 'Man U', result: 'LOSE' },
-      { playedVersus: 'Chelsea', result: 'DRAW' },
-      { playedVersus: 'Liverpool', result: 'LOSE' },
-    ],
-  },
-  {
-    name: 'Chelsea',
-    matchesHistory: [
-      { playedVersus: 'Liverpool', result: 'LOSE' },
-      { playedVersus: 'Arsenal', result: 'DRAW' },
-      { playedVersus: 'Man U', result: 'LOSE' },
-    ],
-  },
-];
-
 const PremierLeagueProvider = ({ children }: Props) => {
   const { handleFetch } = useFetch();
 
-  const [data, setData] = useState<PlayingEntity[]>(rawData);
+  const [data, setData] = useState<PlayingEntity[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | undefined>(undefined);
 
   const onAddTeam = (name: string) => {
-    setData((prevState) => [...prevState, { name, matchesHistory: [] }]);
+    handleFetch<PlayingEntity, PlayingEntityWithoutId>({
+      endpoint: 'premierLeagueTeams',
+      method: 'POST',
+      onSuccess: (data) => setData((prevState) => [...prevState, data]),
+      onError: setError,
+      data: { name, matchesHistory: [] },
+    });
   };
 
   const onAddScore = ({
-    homeTeamName,
+    homeTeamId,
     homeTeamScore,
-    awayTeamName,
+    awayTeamId,
     awayTeamScore,
   }: IAddScoreForm) => {
-    console.log('add score');
+    // const parseMatchResult = homeTeamScore > awayTeamScore ?
+    // handleFetch<PlayingEntity, Partial<PlayingEntity>>({
+    //   endpoint: 'premierLeagueTeams',
+    //   method: 'PUT',
+    //   onSuccess: (data) => console.log('PUT: ', data),
+    //   // onError: setError,
+    //   data: { id: homeTeamId, matchesHistory: [{playedVersus: awayTeamId, result: }] },
+    // });
   };
 
   const getTeams = () => {

@@ -1,3 +1,24 @@
 {
-  "premierLeagueTeams": []
+  "premierLeagueTeams": [
+    {
+      "id": "2fac",
+      "name": "tye",
+      "matchesHistory": []
+    },
+    {
+      "id": "399f",
+      "name": "s",
+      "matchesHistory": []
+    },
+    {
+      "id": "ac5d",
+      "name": "fasf",
+      "matchesHistory": []
+    },
+    {
+      "id": "ed2c",
+      "name": "ss",
+      "matchesHistory": []
+    }
+  ]
 }

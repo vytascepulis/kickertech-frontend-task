@@ -8,5 +8,8 @@ export default defineConfig({
   plugins: [tsconfigPaths(), react(), tailwindcss()],
   server: {
     port: 3000,
+    watch: {
+      ignored: ['**/db.json'],
+    },
   },
 });
