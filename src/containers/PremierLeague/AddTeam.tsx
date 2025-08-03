@@ -6,6 +6,7 @@ import {
   type SubmitHandler,
   useForm,
 } from 'react-hook-form';
+import ErrorMessage from 'components/ErrorMessage';
 
 type FormInputs = {
   newTeamInput: string;
@@ -54,9 +55,7 @@ const AddTeam = () => {
         <Button type='submit'>Add</Button>
       </div>
       {errors.newTeamInput && (
-        <div className='mt-2 text-sm font-bold text-red-500'>
-          {errors.newTeamInput.message}
-        </div>
+        <ErrorMessage message={errors.newTeamInput.message} />
       )}
     </form>
   );

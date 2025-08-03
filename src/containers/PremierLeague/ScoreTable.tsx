@@ -3,6 +3,8 @@ import type { Column, TableOptions } from 'components/Table/types.ts';
 import type { TablePlayingEntity } from 'types.ts';
 import { usePremierLeagueContext } from 'contexts/PremierLeagueContext';
 import { formatEntityToTable } from 'utils.ts';
+import Spinner from 'components/Spinner';
+import ErrorMessage from 'components/ErrorMessage';
 
 const columns: Column<TablePlayingEntity>[] = [
   { title: 'Team', key: 'name', width: 130, sortable: true },
@@ -23,8 +25,20 @@ const tableOptions: TableOptions<TablePlayingEntity> = {
 };
 
 const ScoreTable = () => {
-  const { data } = usePremierLeagueContext();
+  const { data, error, isLoading } = usePremierLeagueContext();
   const tableData = data.map((d) => formatEntityToTable(d));
+
+  if (isLoading) {
+    return (
+      <div className='flex justify-center py-3'>
+        <Spinner />
+      </div>
+    );
+  }
+
+  if (error) {
+    return <ErrorMessage message={error} />;
+  }
 
   return <Table columns={columns} data={tableData} options={tableOptions} />;
 };

@@ -1,5 +1,12 @@
-import { createContext, type ReactNode, useContext, useState } from 'react';
+import {
+  createContext,
+  type ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import type { PlayingEntity } from 'types.ts';
+import useFetch from 'hooks/useFetch.ts';
 
 interface Props {
   children: ReactNode;
@@ -7,6 +14,8 @@ interface Props {
 
 interface Context {
   data: PlayingEntity[];
+  isLoading: boolean;
+  error?: string;
   onAddTeam: (name: string) => void;
   onAddScore: (scoreData: IAddScoreForm) => void;
 }
@@ -20,6 +29,8 @@ export interface IAddScoreForm {
 
 const PremierLeagueContext = createContext<Context>({
   data: [],
+  isLoading: true,
+  error: undefined,
   onAddTeam: () => {},
   onAddScore: () => {},
 });
@@ -60,7 +71,11 @@ const rawData: PlayingEntity[] = [
 ];
 
 const PremierLeagueProvider = ({ children }: Props) => {
+  const { handleFetch } = useFetch();
+
   const [data, setData] = useState<PlayingEntity[]>(rawData);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | undefined>(undefined);
 
   const onAddTeam = (name: string) => {
     setData((prevState) => [...prevState, { name, matchesHistory: [] }]);
@@ -75,10 +90,25 @@ const PremierLeagueProvider = ({ children }: Props) => {
     console.log('add score');
   };
 
+  const getTeams = () => {
+    handleFetch<PlayingEntity[]>({
+      endpoint: 'premierLeagueTeams',
+      onSuccess: setData,
+      onError: setError,
+      onFinish: () => setIsLoading(false),
+    });
+  };
+
+  useEffect(() => {
+    getTeams();
+  }, []);
+
   return (
     <PremierLeagueContext.Provider
       value={{
         data,
+        isLoading,
+        error,
         onAddTeam,
         onAddScore,
       }}

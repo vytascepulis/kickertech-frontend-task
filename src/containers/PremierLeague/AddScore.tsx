@@ -11,6 +11,7 @@ import {
   useForm,
 } from 'react-hook-form';
 import { checkHasPlayedVersus, sanitizeNumberInput } from 'utils.ts';
+import ErrorMessage from 'components/ErrorMessage';
 
 const AddScore = () => {
   const {
@@ -107,9 +108,7 @@ const AddScore = () => {
         </Button>
       </div>
       {errorMessages.map((message, idx) => (
-        <div key={idx} className='mt-2 text-sm font-bold text-red-500'>
-          {message}
-        </div>
+        <ErrorMessage key={idx} message={message} />
       ))}
     </form>
   );
