@@ -9,7 +9,10 @@ export interface PlayingEntity {
   matchesHistory: MatchHistory[];
 }
 
-export type PlayingEntityWithoutId = Omit<PlayingEntity, 'id'>;
+export type PlayingEntityWithoutId = Omit<
+  PlayingEntity,
+  'id' | 'matchesHistory'
+>;
 
 export interface TablePlayingEntity {
   name: PlayingEntity['name'];

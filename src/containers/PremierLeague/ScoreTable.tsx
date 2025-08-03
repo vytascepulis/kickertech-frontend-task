@@ -1,7 +1,7 @@
 import Table from 'components/Table';
 import type { Column, TableOptions } from 'components/Table/types.ts';
 import type { TablePlayingEntity } from 'types.ts';
-import { usePremierLeagueContext } from 'contexts/PremierLeagueContext';
+import { usePremierLeagueContext } from 'contexts/GameDataContext';
 import { formatEntityToTable } from 'utils.ts';
 import Spinner from 'components/Spinner';
 import ErrorMessage from 'components/ErrorMessage';
@@ -35,7 +35,7 @@ const tableOptions: TableOptions<TablePlayingEntity> = {
 
 const ScoreTable = () => {
   const { data, error, isLoading, onClearData } = usePremierLeagueContext();
-  const tableData = data.map((d) => formatEntityToTable(d));
+  const tableData = data['PremierLeague'].map((d) => formatEntityToTable(d));
 
   if (isLoading) {
     return (
@@ -45,18 +45,18 @@ const ScoreTable = () => {
     );
   }
 
-  if (error) {
-    return <ErrorMessage message={error} />;
+  if (error['PremierLeague']) {
+    return <ErrorMessage message={error['PremierLeague']} />;
   }
 
-  if (!data.length) {
+  if (!data['PremierLeague'].length) {
     return <p className='mt-4 text-sm font-bold text-gray-700'>No data</p>;
   }
 
   return (
     <>
       <button
-        onClick={onClearData}
+        onClick={() => onClearData('PremierLeague')}
         className='cursor-pointer py-2 text-sm font-bold text-red-500 transition-colors hover:text-red-600'
       >
         Clear data

@@ -1,6 +1,6 @@
 import Input from 'components/Input';
 import Button from 'components/Button';
-import { usePremierLeagueContext } from 'contexts/PremierLeagueContext';
+import { usePremierLeagueContext } from 'contexts/GameDataContext';
 import {
   type RegisterOptions,
   type SubmitHandler,
@@ -19,12 +19,12 @@ const AddTeam = () => {
     reset,
     formState: { errors },
   } = useForm<FormInputs>();
-  const { onAddTeam, data } = usePremierLeagueContext();
+  const { onAddEntity, data } = usePremierLeagueContext();
 
   const handleAddTeam: SubmitHandler<FormInputs> = ({
     newTeamInput: value,
   }) => {
-    onAddTeam(value);
+    onAddEntity('PremierLeague', value);
     reset();
   };
 
@@ -32,7 +32,9 @@ const AddTeam = () => {
     required: 'Team name cannot be empty',
     validate: (value) => {
       if (
-        data.find((team) => team.name.toLowerCase() === value.toLowerCase())
+        data['PremierLeague'].find(
+          (team) => team.name.toLowerCase() === value.toLowerCase()
+        )
       ) {
         return 'Team name already exists';
       }

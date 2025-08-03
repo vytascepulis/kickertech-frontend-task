@@ -25,21 +25,23 @@ function writeDB(data) {
   fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2));
 }
 
-app.get('/premierLeagueTeams', (req, res) => {
+app.get('/entities', (req, res) => {
   const db = readDB();
-  res.json(db.premierLeagueTeams);
+  res.json(db);
 });
 
-app.post('/premierLeagueTeams', (req, res) => {
+app.post('/entities', (req, res) => {
   const db = readDB();
-  const newTeam = { id: uuidv4(), ...req.body };
-  db.premierLeagueTeams.push(newTeam);
+  const { game, name } = req.body;
+  const newEntity = { id: uuidv4(), name, matchesHistory: [] };
+  db[game].push(newEntity);
   writeDB(db);
-  res.status(201).json(db.premierLeagueTeams);
+  res.status(201).json(db[game]);
 });
 
-app.put('/premierLeagueTeams', (req, res) => {
-  const { homeTeamId, homeTeamScore, awayTeamId, awayTeamScore } = req.body;
+app.put('/score', (req, res) => {
+  const { homeEntityId, homeEntityScore, awayEntityId, awayEntityScore, game } =
+    req.body;
   const db = readDB();
 
   const getResultByScore = (first, second) => {
@@ -48,48 +50,45 @@ app.put('/premierLeagueTeams', (req, res) => {
     return 'DRAW';
   };
 
-  const foundHomeTeam = db.premierLeagueTeams.find(
-    (team) => team.id === homeTeamId
-  );
-  const foundAwayTeam = db.premierLeagueTeams.find(
-    (team) => team.id === awayTeamId
-  );
-  const filteredTeams = db.premierLeagueTeams.filter(
-    (team) => team.id !== homeTeamId && team.id !== awayTeamId
+  const foundHomeEntity = db[game].find((e) => e.id === homeEntityId);
+  const foundAwayEntity = db[game].find((e) => e.id === awayEntityId);
+  const filteredEntities = db[game].filter(
+    (e) => e.id !== homeEntityId && e.id !== awayEntityId
   );
 
   const updatedHome = {
-    ...foundHomeTeam,
+    ...foundHomeEntity,
     matchesHistory: [
-      ...foundHomeTeam.matchesHistory,
+      ...foundHomeEntity.matchesHistory,
       {
-        result: getResultByScore(homeTeamScore, awayTeamScore),
-        playedVersus: awayTeamId,
+        result: getResultByScore(homeEntityScore, awayEntityScore),
+        playedVersus: awayEntityId,
       },
     ],
   };
 
   const updatedAway = {
-    ...foundAwayTeam,
+    ...foundAwayEntity,
     matchesHistory: [
-      ...foundAwayTeam.matchesHistory,
+      ...foundAwayEntity.matchesHistory,
       {
-        result: getResultByScore(awayTeamScore, homeTeamScore),
-        playedVersus: homeTeamId,
+        result: getResultByScore(awayEntityScore, homeEntityScore),
+        playedVersus: homeEntityId,
       },
     ],
   };
 
-  db.premierLeagueTeams = [...filteredTeams, updatedHome, updatedAway];
+  db[game] = [...filteredEntities, updatedHome, updatedAway];
   writeDB(db);
-  res.status(200).json(db.premierLeagueTeams);
+  res.status(200).json(db[game]);
 });
 
-app.delete('/premierLeagueTeams', (req, res) => {
+app.delete('/entities/:game', (req, res) => {
+  const { game } = req.params;
   const db = readDB();
-  db.premierLeagueTeams = [];
+  db[game] = [];
   writeDB(db);
-  res.status(200).json(db.premierLeagueTeams);
+  res.status(200).json(db[game]);
 });
 
 app.listen(PORT, () => {
