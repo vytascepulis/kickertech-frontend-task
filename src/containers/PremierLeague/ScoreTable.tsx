@@ -25,7 +25,7 @@ const tableOptions: TableOptions<TablePlayingEntity> = {
 };
 
 const ScoreTable = () => {
-  const { data, error, isLoading } = usePremierLeagueContext();
+  const { data, error, isLoading, onClearData } = usePremierLeagueContext();
   const tableData = data.map((d) => formatEntityToTable(d));
 
   if (isLoading) {
@@ -40,7 +40,21 @@ const ScoreTable = () => {
     return <ErrorMessage message={error} />;
   }
 
-  return <Table columns={columns} data={tableData} options={tableOptions} />;
+  if (!data.length) {
+    return <p className='mt-4 text-sm font-bold text-gray-700'>No data</p>;
+  }
+
+  return (
+    <>
+      <button
+        onClick={onClearData}
+        className='cursor-pointer text-sm font-bold text-red-500 transition-colors hover:text-red-600'
+      >
+        Clear data
+      </button>
+      <Table columns={columns} data={tableData} options={tableOptions} />
+    </>
+  );
 };
 
 export default ScoreTable;

@@ -18,6 +18,7 @@ interface Context {
   error?: string;
   onAddTeam: (name: string) => void;
   onAddScore: (scoreData: IAddScoreForm) => void;
+  onClearData: () => void;
 }
 
 export interface IAddScoreForm {
@@ -33,6 +34,7 @@ const PremierLeagueContext = createContext<Context>({
   error: undefined,
   onAddTeam: () => {},
   onAddScore: () => {},
+  onClearData: () => {},
 });
 
 const PremierLeagueProvider = ({ children }: Props) => {
@@ -43,29 +45,32 @@ const PremierLeagueProvider = ({ children }: Props) => {
   const [error, setError] = useState<string | undefined>(undefined);
 
   const onAddTeam = (name: string) => {
-    handleFetch<PlayingEntity, PlayingEntityWithoutId>({
+    handleFetch<PlayingEntity[], PlayingEntityWithoutId>({
       endpoint: 'premierLeagueTeams',
       method: 'POST',
-      onSuccess: (data) => setData((prevState) => [...prevState, data]),
+      onSuccess: setData,
       onError: setError,
       data: { name, matchesHistory: [] },
     });
   };
 
-  const onAddScore = ({
-    homeTeamId,
-    homeTeamScore,
-    awayTeamId,
-    awayTeamScore,
-  }: IAddScoreForm) => {
-    // const parseMatchResult = homeTeamScore > awayTeamScore ?
-    // handleFetch<PlayingEntity, Partial<PlayingEntity>>({
-    //   endpoint: 'premierLeagueTeams',
-    //   method: 'PUT',
-    //   onSuccess: (data) => console.log('PUT: ', data),
-    //   // onError: setError,
-    //   data: { id: homeTeamId, matchesHistory: [{playedVersus: awayTeamId, result: }] },
-    // });
+  const onAddScore = (data: IAddScoreForm) => {
+    handleFetch<PlayingEntity[], IAddScoreForm>({
+      endpoint: 'premierLeagueTeams',
+      method: 'PUT',
+      onSuccess: setData,
+      onError: setError,
+      data,
+    });
+  };
+
+  const onClearData = () => {
+    handleFetch({
+      endpoint: 'premierLeagueTeams',
+      method: 'DELETE',
+      onSuccess: setData,
+      onError: setError,
+    });
   };
 
   const getTeams = () => {
@@ -89,6 +94,7 @@ const PremierLeagueProvider = ({ children }: Props) => {
         error,
         onAddTeam,
         onAddScore,
+        onClearData,
       }}
     >
       {children}

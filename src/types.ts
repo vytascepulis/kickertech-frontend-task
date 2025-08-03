@@ -1,6 +1,6 @@
 interface MatchHistory {
   result: 'WIN' | 'LOSE' | 'DRAW';
-  playedVersus: PlayingEntity['name'];
+  playedVersus: PlayingEntity['id'];
 }
 
 export interface PlayingEntity {

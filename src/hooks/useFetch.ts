@@ -5,7 +5,7 @@ interface HandleFetchParams<TRes, TData> {
   onSuccess?: (data: TRes) => void;
   onError?: (err: string) => void;
   onFinish?: () => void;
-  method?: 'POST' | 'GET' | 'PUT';
+  method?: 'POST' | 'GET' | 'PUT' | 'DELETE';
   data?: TData;
 }
 

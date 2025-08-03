@@ -46,7 +46,7 @@ const AddScore = () => {
   const validateHasPlayedAgainst: RegisterOptions<IAddScoreForm, 'homeTeamId'> =
     {
       validate: (value, { awayTeamId }) => {
-        const homeTeamEntity = data.find((t) => t.name === value)!;
+        const homeTeamEntity = data.find((t) => t.id === value)!;
 
         return (
           !checkHasPlayedVersus(homeTeamEntity, awayTeamId) ||
