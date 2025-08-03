@@ -25,68 +25,53 @@ function writeDB(data) {
   fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2));
 }
 
-app.get('/entities', (req, res) => {
+app.get('/:game/data', (req, res) => {
+  const { game } = req.params;
   const db = readDB();
-  res.json(db);
+  res.json(db[game]);
 });
 
-app.post('/entities', (req, res) => {
+app.post('/:game/participant', (req, res) => {
+  const { game } = req.params;
   const db = readDB();
-  const { game, name } = req.body;
-  const newEntity = { id: uuidv4(), name, matchesHistory: [] };
-  db[game].push(newEntity);
+  const { name } = req.body;
+  const newParticipant = { id: uuidv4(), name };
+  db[game].participants.push(newParticipant);
   writeDB(db);
   res.status(201).json(db[game]);
 });
 
-app.put('/score', (req, res) => {
-  const { homeEntityId, homeEntityScore, awayEntityId, awayEntityScore, game } =
-    req.body;
+app.post('/:game/score', (req, res) => {
+  const { game } = req.params;
+  const {
+    participantAId,
+    participantAScore,
+    participantBId,
+    participantBScore,
+  } = req.body;
   const db = readDB();
 
-  const getResultByScore = (first, second) => {
-    if (first > second) return 'WIN';
-    if (first < second) return 'LOSE';
-    return 'DRAW';
-  };
+  let winner = null;
 
-  const foundHomeEntity = db[game].find((e) => e.id === homeEntityId);
-  const foundAwayEntity = db[game].find((e) => e.id === awayEntityId);
-  const filteredEntities = db[game].filter(
-    (e) => e.id !== homeEntityId && e.id !== awayEntityId
-  );
+  if (+participantAScore > +participantBScore) {
+    winner = participantAId;
+  } else if (+participantBScore > +participantAScore) {
+    winner = participantBId;
+  }
 
-  const updatedHome = {
-    ...foundHomeEntity,
-    matchesHistory: [
-      ...foundHomeEntity.matchesHistory,
-      {
-        result: getResultByScore(homeEntityScore, awayEntityScore),
-        playedVersus: awayEntityId,
-      },
-    ],
-  };
-
-  const updatedAway = {
-    ...foundAwayEntity,
-    matchesHistory: [
-      ...foundAwayEntity.matchesHistory,
-      {
-        result: getResultByScore(awayEntityScore, homeEntityScore),
-        playedVersus: homeEntityId,
-      },
-    ],
-  };
-
-  db[game] = [...filteredEntities, updatedHome, updatedAway];
+  db[game].matches.push({
+    participantA: { id: participantAId, score: participantAScore },
+    participantB: { id: participantBId, score: participantBScore },
+    winner,
+  });
   writeDB(db);
   res.status(200).json(db[game]);
 });
 
-app.delete('/entities/:game', (req, res) => {
+app.delete('/:game', (req, res) => {
   const { game } = req.params;
   const db = readDB();
-  db[game] = [];
+  db[game] = { participants: [], matches: [] };
   writeDB(db);
   res.status(200).json(db[game]);
 });

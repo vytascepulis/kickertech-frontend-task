@@ -1,18 +1,18 @@
-interface MatchHistory {
-  result: 'WIN' | 'LOSE' | 'DRAW';
-  playedVersus: PlayingEntity['id'];
+export interface Match {
+  participantA: PlayingEntity & { score: number };
+  participantB: PlayingEntity & { score: number };
+  winner: string | null;
 }
 
 export interface PlayingEntity {
   id: string;
   name: string;
-  matchesHistory: MatchHistory[];
 }
 
-export type PlayingEntityWithoutId = Omit<
-  PlayingEntity,
-  'id' | 'matchesHistory'
->;
+export interface GameData {
+  participants: PlayingEntity[];
+  matches: Match[];
+}
 
 export interface TablePlayingEntity {
   name: PlayingEntity['name'];
@@ -20,5 +20,12 @@ export interface TablePlayingEntity {
   wins: number;
   losses: number;
   draws: number;
-  points?: number;
+  points: number;
+}
+
+export interface IAddScoreForm {
+  participantAId: string;
+  participantAScore: string;
+  participantBId: string;
+  participantBScore: string;
 }

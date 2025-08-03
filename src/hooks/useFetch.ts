@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useState } from 'react';
 
 interface HandleFetchParams<TRes, TData> {
   endpoint: string;
@@ -9,8 +10,14 @@ interface HandleFetchParams<TRes, TData> {
   data?: TData;
 }
 
-const useFetch = () => {
-  const handleFetch = async <TRes, TData = undefined>({
+const useFetch = <TRes>() => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [data, setData] = useState<TRes | null>(null);
+
+  const updateData = (data: TRes) => setData(data);
+
+  const handleFetch = async <TData = undefined>({
     endpoint,
     onSuccess,
     onError,
@@ -18,6 +25,10 @@ const useFetch = () => {
     method = 'GET',
     data,
   }: HandleFetchParams<TRes, TData>) => {
+    setIsLoading(true);
+    setError(null);
+    setData(null);
+
     try {
       const res = await axios<TRes>({
         method,
@@ -25,6 +36,7 @@ const useFetch = () => {
         data,
       });
       onSuccess?.(res.data);
+      setData(res.data);
     } catch (err) {
       let message = 'Unknown error';
 
@@ -35,12 +47,14 @@ const useFetch = () => {
       }
 
       onError?.(message);
+      setError(message);
     } finally {
       onFinish?.();
+      setIsLoading(false);
     }
   };
 
-  return { handleFetch };
+  return { handleFetch, isLoading, error, data, updateData };
 };
 
 export default useFetch;

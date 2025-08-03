@@ -1,43 +1,54 @@
-import type { PlayingEntity, TablePlayingEntity } from 'types.ts';
+import type { Match, PlayingEntity, TablePlayingEntity } from 'types.ts';
 
 export const matchesToPoints = (wins: number, draws: number) => {
   return wins * 3 + draws;
 };
 
-const getEntityResults = (playingEntity: PlayingEntity) => {
-  return playingEntity.matchesHistory.reduce(
+export const formatEntityToTable = (
+  participant: PlayingEntity,
+  matches: Match[]
+): TablePlayingEntity => {
+  const playedMatches = matches.filter(
+    (m) =>
+      m.participantA.id === participant.id ||
+      m.participantB.id === participant.id
+  );
+
+  const matchesData = playedMatches.reduce(
     (acc, curr) => {
-      switch (curr.result) {
-        case 'WIN':
+      switch (curr.winner) {
+        case participant.id:
           return { ...acc, wins: acc.wins + 1 };
-        case 'LOSE':
-          return { ...acc, losses: acc.losses + 1 };
-        default:
+        case null:
           return { ...acc, draws: acc.draws + 1 };
+        default:
+          return { ...acc, losses: acc.losses + 1 };
       }
     },
-    { wins: 0, losses: 0, draws: 0 }
+    {
+      wins: 0,
+      losses: 0,
+      draws: 0,
+    }
   );
-};
 
-export const formatEntityToTable = (
-  playingEntity: PlayingEntity
-): TablePlayingEntity => {
-  const entityResults = getEntityResults(playingEntity);
   return {
-    name: playingEntity.name,
-    matchesPlayed: playingEntity.matchesHistory.length,
-    points: matchesToPoints(entityResults.wins, entityResults.draws),
-    ...entityResults,
+    name: participant.name,
+    matchesPlayed: playedMatches.length,
+    points: matchesToPoints(matchesData.wins, matchesData.draws),
+    ...matchesData,
   };
 };
 
 export const checkHasPlayedVersus = (
-  playingEntity: PlayingEntity,
-  versusEntityId: string
+  matches: Match[],
+  participantAId: string,
+  participantBId: string
 ) => {
   return Boolean(
-    playingEntity.matchesHistory.find((m) => m.playedVersus === versusEntityId)
+    matches
+      .filter((m) => m.participantA.id === participantAId)
+      .find((m) => m.participantB.id === participantBId)
   );
 };
 

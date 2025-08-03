@@ -1,46 +1,6 @@
 {
-  "PremierLeague": [
-    {
-      "id": "9ad92e4a-d3cd-4ad8-bcad-2eaf0c71058a",
-      "name": "asd",
-      "matchesHistory": [
-        {
-          "result": "DRAW",
-          "playedVersus": "c2b24f96-5aea-4091-9c8f-99e1af566225"
-        },
-        {
-          "result": "DRAW",
-          "playedVersus": "7f10cdb5-ae8e-4a7a-bb21-0bda7136171e"
-        }
-      ]
-    },
-    {
-      "id": "7f10cdb5-ae8e-4a7a-bb21-0bda7136171e",
-      "name": "44",
-      "matchesHistory": [
-        {
-          "result": "DRAW",
-          "playedVersus": "9ad92e4a-d3cd-4ad8-bcad-2eaf0c71058a"
-        },
-        {
-          "result": "WIN",
-          "playedVersus": "c2b24f96-5aea-4091-9c8f-99e1af566225"
-        }
-      ]
-    },
-    {
-      "id": "c2b24f96-5aea-4091-9c8f-99e1af566225",
-      "name": "test",
-      "matchesHistory": [
-        {
-          "result": "DRAW",
-          "playedVersus": "9ad92e4a-d3cd-4ad8-bcad-2eaf0c71058a"
-        },
-        {
-          "result": "LOSE",
-          "playedVersus": "7f10cdb5-ae8e-4a7a-bb21-0bda7136171e"
-        }
-      ]
-    }
-  ]
+  "premierLeague": {
+    "participants": [],
+    "matches": []
+  }
 }

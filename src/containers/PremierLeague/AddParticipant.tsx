@@ -1,30 +1,41 @@
 import Input from 'components/Input';
 import Button from 'components/Button';
-import { usePremierLeagueContext } from 'contexts/GameDataContext';
 import {
   type RegisterOptions,
   type SubmitHandler,
   useForm,
 } from 'react-hook-form';
 import ErrorMessage from 'components/ErrorMessage';
+import type { PlayingEntity } from 'types.ts';
 
 type FormInputs = {
   newTeamInput: string;
 };
 
-const AddTeam = () => {
+interface Props {
+  participants: PlayingEntity[];
+  onAddParticipant: (name: PlayingEntity['name']) => void;
+  isLoading: boolean;
+  error: string | null;
+}
+
+const AddParticipant = ({
+  participants,
+  onAddParticipant,
+  isLoading,
+  error,
+}: Props) => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm<FormInputs>();
-  const { onAddEntity, data } = usePremierLeagueContext();
 
   const handleAddTeam: SubmitHandler<FormInputs> = ({
     newTeamInput: value,
   }) => {
-    onAddEntity('PremierLeague', value);
+    onAddParticipant(value);
     reset();
   };
 
@@ -32,9 +43,7 @@ const AddTeam = () => {
     required: 'Team name cannot be empty',
     validate: (value) => {
       if (
-        data['PremierLeague'].find(
-          (team) => team.name.toLowerCase() === value.toLowerCase()
-        )
+        participants.find((p) => p.name.toLowerCase() === value.toLowerCase())
       ) {
         return 'Team name already exists';
       }
@@ -54,13 +63,15 @@ const AddTeam = () => {
           placeholder='Team Name'
           {...register('newTeamInput', inputValidation)}
         />
-        <Button type='submit'>Add</Button>
+        <Button type='submit' loading={isLoading}>
+          Add
+        </Button>
       </div>
-      {errors.newTeamInput && (
-        <ErrorMessage message={errors.newTeamInput.message} />
+      {(errors.newTeamInput || error) && (
+        <ErrorMessage message={errors.newTeamInput?.message || error} />
       )}
     </form>
   );
 };
 
-export default AddTeam;
+export default AddParticipant;

@@ -1,10 +1,7 @@
 import Table from 'components/Table';
 import type { Column, TableOptions } from 'components/Table/types.ts';
-import type { TablePlayingEntity } from 'types.ts';
-import { usePremierLeagueContext } from 'contexts/GameDataContext';
+import type { GameData, TablePlayingEntity } from 'types.ts';
 import { formatEntityToTable } from 'utils.ts';
-import Spinner from 'components/Spinner';
-import ErrorMessage from 'components/ErrorMessage';
 
 const columns: Column<TablePlayingEntity>[] = [
   {
@@ -33,37 +30,20 @@ const tableOptions: TableOptions<TablePlayingEntity> = {
     'p-2 border-b border-gray-200 transition-colors hover:bg-gray-50',
 };
 
-const ScoreTable = () => {
-  const { data, error, isLoading, onClearData } = usePremierLeagueContext();
-  const tableData = data['PremierLeague'].map((d) => formatEntityToTable(d));
+interface Props {
+  data: GameData;
+}
 
-  if (isLoading) {
-    return (
-      <div className='flex justify-center py-3'>
-        <Spinner />
-      </div>
-    );
-  }
+const ScoreTable = ({ data }: Props) => {
+  const tableData = data.participants.map((p) =>
+    formatEntityToTable(p, data.matches)
+  );
 
-  if (error['PremierLeague']) {
-    return <ErrorMessage message={error['PremierLeague']} />;
-  }
-
-  if (!data['PremierLeague'].length) {
+  if (!data.matches.length) {
     return <p className='mt-4 text-sm font-bold text-gray-700'>No data</p>;
   }
 
-  return (
-    <>
-      <button
-        onClick={() => onClearData('PremierLeague')}
-        className='cursor-pointer py-2 text-sm font-bold text-red-500 transition-colors hover:text-red-600'
-      >
-        Clear data
-      </button>
-      <Table columns={columns} data={tableData} options={tableOptions} />
-    </>
-  );
+  return <Table columns={columns} data={tableData} options={tableOptions} />;
 };
 
 export default ScoreTable;
