@@ -57,7 +57,7 @@ const ScoreTable = () => {
     <>
       <button
         onClick={onClearData}
-        className='cursor-pointer text-sm font-bold text-red-500 transition-colors hover:text-red-600'
+        className='cursor-pointer py-2 text-sm font-bold text-red-500 transition-colors hover:text-red-600'
       >
         Clear data
       </button>

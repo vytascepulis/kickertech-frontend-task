@@ -19,6 +19,7 @@ const AddScore = () => {
     handleSubmit,
     reset,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<IAddScoreForm>();
   const { onAddScore, data } = usePremierLeagueContext();
@@ -36,11 +37,7 @@ const AddScore = () => {
   const getFilteredTeams = (filteredId: string) => {
     return [...data]
       .filter((team) => team.id !== filteredId)
-      .map((team) => (
-        <option key={team.id} value={team.id}>
-          {team.name}
-        </option>
-      ));
+      .map((team) => ({ label: team.name, value: team.id }));
   };
 
   const validateHasPlayedAgainst: RegisterOptions<IAddScoreForm, 'homeTeamId'> =
@@ -65,28 +62,32 @@ const AddScore = () => {
       <p className='mb-2 font-bold'>Add Score</p>
       <div className='grid grid-cols-2 grid-rows-3 gap-2'>
         <Select
-          value={selectedHomeTeam ? undefined : ''}
           {...register('homeTeamId', {
             required: 'Select home team',
             ...validateHasPlayedAgainst,
           })}
           placeholder='Home Team'
-        >
-          {getFilteredTeams(selectedAwayTeam)}
-        </Select>
+          setValue={(_, val) => setValue('homeTeamId', val)}
+          value={selectedHomeTeam}
+          options={getFilteredTeams(selectedAwayTeam)}
+        />
         <Select
-          value={selectedAwayTeam ? undefined : ''}
-          {...register('awayTeamId', { required: 'Select away team' })}
+          {...register('awayTeamId', {
+            required: 'Select away team',
+            ...validateHasPlayedAgainst,
+          })}
           placeholder='Away Team'
-        >
-          {getFilteredTeams(selectedHomeTeam)}
-        </Select>
+          setValue={(_, val) => setValue('awayTeamId', val)}
+          value={selectedAwayTeam}
+          options={getFilteredTeams(selectedHomeTeam)}
+        />
         <Input
           {...register('homeTeamScore', { required: 'Enter home score' })}
           type='number'
           inputMode='numeric'
           placeholder='Home Score'
           onKeyDown={sanitizeNumberInput}
+          min={0}
         />
         <Input
           {...register('awayTeamScore', { required: 'Enter away score' })}
@@ -94,6 +95,7 @@ const AddScore = () => {
           inputMode='numeric'
           placeholder='Away Score'
           onKeyDown={sanitizeNumberInput}
+          min={0}
         />
         <Button type='submit' className='col-span-2'>
           Add Score

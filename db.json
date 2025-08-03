@@ -1,3 +1,24 @@
 {
-  "premierLeagueTeams": []
+  "premierLeagueTeams": [
+    {
+      "id": "c2b24f96-5aea-4091-9c8f-99e1af566225",
+      "name": "test",
+      "matchesHistory": [
+        {
+          "result": "DRAW",
+          "playedVersus": "9ad92e4a-d3cd-4ad8-bcad-2eaf0c71058a"
+        }
+      ]
+    },
+    {
+      "id": "9ad92e4a-d3cd-4ad8-bcad-2eaf0c71058a",
+      "name": "asd",
+      "matchesHistory": [
+        {
+          "result": "DRAW",
+          "playedVersus": "c2b24f96-5aea-4091-9c8f-99e1af566225"
+        }
+      ]
+    }
+  ]
 }
