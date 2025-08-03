@@ -1,14 +1,3 @@
 {
-  "premierLeagueTeams": [
-    {
-      "id": "595ad221-67a8-4212-b8d3-f7a9e3c7bc64",
-      "name": "asd",
-      "matchesHistory": []
-    },
-    {
-      "id": "8fcc4298-6d65-4c72-9fae-42ffb937512f",
-      "name": "dd",
-      "matchesHistory": []
-    }
-  ]
+  "premierLeagueTeams": []
 }

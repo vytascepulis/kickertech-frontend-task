@@ -58,30 +58,32 @@ const Table = <T,>({ columns, data, options }: Props<T>) => {
           </button>
         ))}
       </div>
-      {handleSort(data, columns, sort).map((item, idx) => {
-        return (
-          <div
-            key={idx}
-            className={twMerge(rowClassName, options?.rowClassName)}
-          >
-            {columns.map((column) => {
-              const value = column.render
-                ? column.render(item)
-                : (item[column.key] as React.ReactNode);
+      <div className='max-h-[300px] overflow-x-hidden overflow-y-auto'>
+        {handleSort(data, columns, sort).map((item, idx) => {
+          return (
+            <div
+              key={idx}
+              className={twMerge(rowClassName, options?.rowClassName)}
+            >
+              {columns.map((column) => {
+                const value = column.render
+                  ? column.render(item)
+                  : (item[column.key] as React.ReactNode);
 
-              return (
-                <div
-                  key={`${column.key as string}-${idx}`}
-                  style={{ minWidth: `${column.width}px`, flex: 1 }}
-                  className={twMerge('text-center', column.className)}
-                >
-                  {value}
-                </div>
-              );
-            })}
-          </div>
-        );
-      })}
+                return (
+                  <div
+                    key={`${column.key as string}-${idx}`}
+                    style={{ minWidth: `${column.width}px`, flex: 1 }}
+                    className={twMerge('text-center', column.className)}
+                  >
+                    {value}
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
