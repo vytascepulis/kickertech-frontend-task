@@ -1,6 +1,6 @@
 import Input from 'components/Input';
 import Button from 'components/Button';
-import { usePremierLeagueContext } from 'contexts/PremierLeagueContext/index.tsx';
+import { usePremierLeagueContext } from 'contexts/PremierLeagueContext';
 import {
   type RegisterOptions,
   type SubmitHandler,

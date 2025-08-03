@@ -42,3 +42,30 @@ export const checkHasPlayedVersus = (
     )
   );
 };
+
+export const sanitizeNumberInput = (
+  event: React.KeyboardEvent<HTMLInputElement>
+) => {
+  const allowedKeys = /^[0-9]$/;
+  const controlKeys = [
+    'Backspace',
+    'Delete',
+    'ArrowLeft',
+    'ArrowRight',
+    'Tab',
+    'Enter',
+  ];
+
+  if (controlKeys.includes(event.key)) {
+    return;
+  }
+
+  if (!allowedKeys.test(event.key)) {
+    event.preventDefault();
+    return;
+  }
+
+  if (event.currentTarget.value === '0') {
+    event.preventDefault();
+  }
+};

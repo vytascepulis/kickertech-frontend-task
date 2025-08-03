@@ -1,23 +1,17 @@
 import { createContext, type ReactNode, useContext, useState } from 'react';
-import type { PlayingEntity, TablePlayingEntity } from 'types.ts';
-import { formatEntityToTable } from 'utils.ts';
+import type { PlayingEntity } from 'types.ts';
 
 interface Props {
   children: ReactNode;
 }
 
 interface Context {
-  homeTeamName: string;
-  awayTeamName: string;
-  homeTeamScore: string;
-  awayTeamScore: string;
   data: PlayingEntity[];
-  onAddScoreChange: (field: string, val: string) => void;
   onAddTeam: (name: string) => void;
-  onAddScore: () => void;
+  onAddScore: (scoreData: IAddScoreForm) => void;
 }
 
-interface IAddScoreForm {
+export interface IAddScoreForm {
   homeTeamName: string;
   homeTeamScore: string;
   awayTeamName: string;
@@ -25,12 +19,7 @@ interface IAddScoreForm {
 }
 
 const PremierLeagueContext = createContext<Context>({
-  homeTeamName: '',
-  awayTeamName: '',
-  homeTeamScore: '',
-  awayTeamScore: '',
   data: [],
-  onAddScoreChange: () => {},
   onAddTeam: () => {},
   onAddScore: () => {},
 });
@@ -71,32 +60,25 @@ const rawData: PlayingEntity[] = [
 ];
 
 const PremierLeagueProvider = ({ children }: Props) => {
-  const [addScoreForm, setAddScoreForm] = useState<IAddScoreForm>({
-    homeTeamName: '',
-    homeTeamScore: '',
-    awayTeamName: '',
-    awayTeamScore: '',
-  });
   const [data, setData] = useState<PlayingEntity[]>(rawData);
-
-  const onAddScoreChange = (field: string, val: string) => {
-    setAddScoreForm((prevState) => ({ ...prevState, [field]: val }));
-  };
 
   const onAddTeam = (name: string) => {
     setData((prevState) => [...prevState, { name, matchesHistory: [] }]);
   };
 
-  const onAddScore = () => {
-    console.log('add score: ', addScoreForm);
+  const onAddScore = ({
+    homeTeamName,
+    homeTeamScore,
+    awayTeamName,
+    awayTeamScore,
+  }: IAddScoreForm) => {
+    console.log('add score');
   };
 
   return (
     <PremierLeagueContext.Provider
       value={{
-        ...addScoreForm,
         data,
-        onAddScoreChange,
         onAddTeam,
         onAddScore,
       }}

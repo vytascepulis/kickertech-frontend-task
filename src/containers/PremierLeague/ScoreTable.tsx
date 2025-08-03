@@ -1,7 +1,7 @@
 import Table from 'components/Table';
 import type { Column, TableOptions } from 'components/Table/types.ts';
 import type { TablePlayingEntity } from 'types.ts';
-import { usePremierLeagueContext } from 'contexts/PremierLeagueContext/index.tsx';
+import { usePremierLeagueContext } from 'contexts/PremierLeagueContext';
 import { formatEntityToTable } from 'utils.ts';
 
 const columns: Column<TablePlayingEntity>[] = [

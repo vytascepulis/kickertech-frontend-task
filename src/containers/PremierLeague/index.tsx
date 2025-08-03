@@ -1,9 +1,9 @@
 import '@fontsource/inter/400.css';
 import '@fontsource/inter/600.css';
 import { PremierLeagueProvider } from 'contexts/PremierLeagueContext';
-import AddTeam from 'contexts/PremierLeagueContext/AddTeam.tsx';
-import AddScore from 'contexts/PremierLeagueContext/AddScore.tsx';
-import ScoreTable from 'contexts/PremierLeagueContext/ScoreTable.tsx';
+import AddTeam from 'containers/PremierLeague/AddTeam.tsx';
+import AddScore from 'containers/PremierLeague/AddScore.tsx';
+import ScoreTable from 'containers/PremierLeague/ScoreTable.tsx';
 
 const PremierLeague = () => {
   return (
