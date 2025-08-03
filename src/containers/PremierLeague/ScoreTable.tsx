@@ -7,7 +7,13 @@ import Spinner from 'components/Spinner';
 import ErrorMessage from 'components/ErrorMessage';
 
 const columns: Column<TablePlayingEntity>[] = [
-  { title: 'Team', key: 'name', width: 130, sortable: true },
+  {
+    title: 'Team',
+    key: 'name',
+    width: 130,
+    sortable: true,
+    className: 'text-start',
+  },
   { title: 'P', key: 'matchesPlayed', width: 40, sortable: true },
   { title: 'W', key: 'wins', width: 40, sortable: true },
   { title: 'D', key: 'draws', width: 40, sortable: true },
@@ -22,6 +28,9 @@ const columns: Column<TablePlayingEntity>[] = [
 
 const tableOptions: TableOptions<TablePlayingEntity> = {
   defaultSort: { field: 'points', order: 'asc' },
+  headerClassName: 'bg-gray-100 p-2 font-semibold',
+  rowClassName:
+    'p-2 border-b border-gray-200 transition-colors hover:bg-gray-50',
 };
 
 const ScoreTable = () => {

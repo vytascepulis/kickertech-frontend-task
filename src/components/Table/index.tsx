@@ -16,7 +16,6 @@ interface Props<T> {
 }
 
 const rowClassName = 'flex flex-row w-full';
-const colClassName = '';
 
 const Table = <T,>({ columns, data, options }: Props<T>) => {
   const [sort, setSort] = useState<SortOptions<T> | undefined>(
@@ -46,13 +45,13 @@ const Table = <T,>({ columns, data, options }: Props<T>) => {
 
   return (
     <div className='overflow-x-auto'>
-      <div className={rowClassName}>
+      <div className={twMerge(rowClassName, options?.headerClassName)}>
         {columns.map((column) => (
           <button
             key={column.key as string}
             onClick={() => onSort(column)}
             style={{ minWidth: `${column.width}px`, flex: 1 }}
-            className='cursor-pointer text-start'
+            className={twMerge('cursor-pointer text-center', column.className)}
           >
             {column.title}
             {renderSortIcon(column)}
@@ -61,7 +60,10 @@ const Table = <T,>({ columns, data, options }: Props<T>) => {
       </div>
       {handleSort(data, columns, sort).map((item, idx) => {
         return (
-          <div key={idx} className={rowClassName}>
+          <div
+            key={idx}
+            className={twMerge(rowClassName, options?.rowClassName)}
+          >
             {columns.map((column) => {
               const value = column.render
                 ? column.render(item)
@@ -70,8 +72,8 @@ const Table = <T,>({ columns, data, options }: Props<T>) => {
               return (
                 <div
                   key={`${column.key as string}-${idx}`}
-                  className={twMerge(colClassName)}
                   style={{ minWidth: `${column.width}px`, flex: 1 }}
+                  className={twMerge('text-center', column.className)}
                 >
                   {value}
                 </div>
