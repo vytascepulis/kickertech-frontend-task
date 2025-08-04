@@ -4,74 +4,11 @@
     "matches": []
   },
   "euroBasket": {
-    "participants": [
-      {
-        "id": "9f115c9b-ae58-40f7-8d4a-9f365457714e",
-        "name": "AC"
-      },
-      {
-        "id": "3419fc08-3698-4057-8133-07aa21e1d544",
-        "name": "AE"
-      },
-      {
-        "id": "335a9047-ddf4-43e5-902d-5aa67bc20014",
-        "name": "AD"
-      }
-    ],
-    "matches": [
-      {
-        "participantA": {
-          "id": "9f115c9b-ae58-40f7-8d4a-9f365457714e",
-          "name": "AC",
-          "score": "2"
-        },
-        "participantB": {
-          "id": "3419fc08-3698-4057-8133-07aa21e1d544",
-          "name": "AE",
-          "score": "3"
-        },
-        "winner": "3419fc08-3698-4057-8133-07aa21e1d544"
-      },
-      {
-        "participantA": {
-          "id": "9f115c9b-ae58-40f7-8d4a-9f365457714e",
-          "name": "AC",
-          "score": "3"
-        },
-        "participantB": {
-          "id": "335a9047-ddf4-43e5-902d-5aa67bc20014",
-          "name": "AD",
-          "score": "3"
-        },
-        "winner": null
-      }
-    ]
+    "participants": [],
+    "matches": []
   },
   "wimbledon": {
-    "participants": [
-      {
-        "id": "ee3755ab-1c09-4caf-858f-8148be7ddb19",
-        "name": "test"
-      },
-      {
-        "id": "18d3ff31-44d4-4016-8d57-ebeb1c597c83",
-        "name": "test2"
-      }
-    ],
-    "matches": [
-      {
-        "participantA": {
-          "id": "ee3755ab-1c09-4caf-858f-8148be7ddb19",
-          "name": "test",
-          "score": "33"
-        },
-        "participantB": {
-          "id": "18d3ff31-44d4-4016-8d57-ebeb1c597c83",
-          "name": "test2",
-          "score": "1"
-        },
-        "winner": "ee3755ab-1c09-4caf-858f-8148be7ddb19"
-      }
-    ]
+    "participants": [],
+    "matches": []
   }
 }

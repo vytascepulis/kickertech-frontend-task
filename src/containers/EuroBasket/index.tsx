@@ -26,7 +26,7 @@ const EuroBasket = () => {
   }
 
   return (
-    <div className='min-h-[300px] w-full max-w-[500px] rounded-lg bg-[#002e26] font-[montserrat] shadow-lg'>
+    <div className='min-h-[300px] w-full max-w-[500px] rounded-lg bg-[#002e26] font-[montserrat] text-sm shadow-lg'>
       <div className='flex justify-between p-4 text-2xl font-semibold text-white uppercase'>
         <div>
           <FontAwesomeIcon icon={faBasketball} className='mr-2' /> Eurobasket
