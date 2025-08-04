@@ -1,3 +1,5 @@
+import type { Game } from 'constants.ts';
+
 export interface Match {
   participantA: PlayingEntity & { score: number };
   participantB: PlayingEntity & { score: number };
@@ -29,3 +31,5 @@ export interface IAddScoreForm {
   participantBId: string;
   participantBScore: string;
 }
+
+export type GameType = (typeof Game)[keyof typeof Game];

@@ -1,36 +1,36 @@
 {
   "premierLeague": {
-    "participants": [],
-    "matches": []
-  },
-  "euroBasket": {
     "participants": [
       {
-        "id": "de3db4af-cc62-4878-8e79-e4ba7f9a93da",
-        "name": "LT"
+        "id": "657a06ca-3f36-4de2-97ce-abe20556a9d7",
+        "name": "test"
       },
       {
-        "id": "e0fe32e2-05d8-4462-8be2-98de50a3bba7",
-        "name": "LV"
+        "id": "cdfa3cbb-94af-4bc4-86e0-1376dcad1468",
+        "name": "winner"
       },
       {
-        "id": "4583a111-1859-4753-b464-bd674fab3958",
-        "name": "EE"
+        "id": "fd68a586-e13f-4814-a8e6-08429132da88",
+        "name": "loser"
       }
     ],
     "matches": [
       {
         "participantA": {
-          "id": "e0fe32e2-05d8-4462-8be2-98de50a3bba7",
+          "id": "cdfa3cbb-94af-4bc4-86e0-1376dcad1468",
           "score": "123"
         },
         "participantB": {
-          "id": "de3db4af-cc62-4878-8e79-e4ba7f9a93da",
+          "id": "fd68a586-e13f-4814-a8e6-08429132da88",
           "score": "3"
         },
-        "winner": "e0fe32e2-05d8-4462-8be2-98de50a3bba7"
+        "winner": "cdfa3cbb-94af-4bc4-86e0-1376dcad1468"
       }
     ]
+  },
+  "euroBasket": {
+    "participants": [],
+    "matches": []
   },
   "wimbledon": {
     "participants": [],

@@ -39,7 +39,7 @@ const ScoreTable = ({ data }: Props) => {
     formatEntityToTable(p, data.matches)
   );
 
-  if (!data.matches.length) {
+  if (!data.participants.length) {
     return <p className='mt-4 text-sm font-bold text-gray-700'>No data</p>;
   }
 
