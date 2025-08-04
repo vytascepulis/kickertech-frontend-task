@@ -1,32 +1,7 @@
 {
   "premierLeague": {
-    "participants": [
-      {
-        "id": "657a06ca-3f36-4de2-97ce-abe20556a9d7",
-        "name": "test"
-      },
-      {
-        "id": "cdfa3cbb-94af-4bc4-86e0-1376dcad1468",
-        "name": "winner"
-      },
-      {
-        "id": "fd68a586-e13f-4814-a8e6-08429132da88",
-        "name": "loser"
-      }
-    ],
-    "matches": [
-      {
-        "participantA": {
-          "id": "cdfa3cbb-94af-4bc4-86e0-1376dcad1468",
-          "score": "123"
-        },
-        "participantB": {
-          "id": "fd68a586-e13f-4814-a8e6-08429132da88",
-          "score": "3"
-        },
-        "winner": "cdfa3cbb-94af-4bc4-86e0-1376dcad1468"
-      }
-    ]
+    "participants": [],
+    "matches": []
   },
   "euroBasket": {
     "participants": [],

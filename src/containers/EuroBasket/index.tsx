@@ -4,6 +4,8 @@ import AddHandlers from 'containers/EuroBasket/AddHandlers.tsx';
 import { Game } from 'constants.ts';
 import Spinner from 'components/Spinner';
 import useGame from 'hooks/useGame.ts';
+import Matches from 'containers/EuroBasket/Matches.tsx';
+import ScoreTable from 'containers/EuroBasket/ScoreTable.tsx';
 
 const EuroBasket = () => {
   const {
@@ -24,7 +26,7 @@ const EuroBasket = () => {
   }
 
   return (
-    <div className='max-w-[400px] rounded-lg bg-[#002e26] font-[montserrat] shadow-lg'>
+    <div className='max-w-[450px] rounded-lg bg-[#002e26] font-[montserrat] shadow-lg'>
       <div className='flex justify-between p-4 text-2xl font-semibold text-white uppercase'>
         <div>
           <FontAwesomeIcon icon={faBasketball} className='mr-2' /> Eurobasket
@@ -48,6 +50,8 @@ const EuroBasket = () => {
             scoreError={scoreError}
             scoreLoading={scoreLoading}
           />
+          <Matches matches={gameData.matches} />
+          <ScoreTable data={gameData} />
         </div>
       )}
     </div>

@@ -51,6 +51,13 @@ app.post('/:game/score', (req, res) => {
   } = req.body;
   const db = readDB();
 
+  const foundParticipantA = db[game].participants.find(
+    (e) => e.id === participantAId
+  );
+  const foundParticipantB = db[game].participants.find(
+    (e) => e.id === participantBId
+  );
+
   let winner = null;
 
   if (+participantAScore > +participantBScore) {
@@ -60,8 +67,8 @@ app.post('/:game/score', (req, res) => {
   }
 
   db[game].matches.push({
-    participantA: { id: participantAId, score: participantAScore },
-    participantB: { id: participantBId, score: participantBScore },
+    participantA: { ...foundParticipantA, score: participantAScore },
+    participantB: { ...foundParticipantB, score: participantBScore },
     winner,
   });
   writeDB(db);

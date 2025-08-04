@@ -56,11 +56,11 @@ const AddHandlers = ({
           {participantOpen && (
             <AddParticipant
               onAddParticipant={onAddParticipant}
+              participants={data.participants}
               error={participantError}
               loading={participantLoading}
             />
           )}
-
           {scoreOpen && (
             <AddScore
               data={data}

@@ -53,24 +53,23 @@ const AddParticipant = ({
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(handleAddTeam)}
-      className='mb-4 flex flex-col rounded-md bg-gray-50 p-4'
-    >
-      <p className='mb-2 font-bold'>Add Team</p>
-      <div className='flex w-full gap-2'>
-        <Input
-          placeholder='Team Name'
-          {...register('newTeamInput', inputValidation)}
-        />
-        <Button type='submit' loading={isLoading}>
-          Add
-        </Button>
-      </div>
+    <div className='mb-4 flex flex-col rounded-md bg-gray-50 p-4'>
+      <form onSubmit={handleSubmit(handleAddTeam)}>
+        <p className='mb-2 font-bold'>Add Team</p>
+        <div className='flex w-full gap-2'>
+          <Input
+            placeholder='Team Name'
+            {...register('newTeamInput', inputValidation)}
+          />
+          <Button type='submit' loading={isLoading}>
+            Add
+          </Button>
+        </div>
+      </form>
       {(errors.newTeamInput || error) && (
         <ErrorMessage message={errors.newTeamInput?.message || error} />
       )}
-    </form>
+    </div>
   );
 };
 

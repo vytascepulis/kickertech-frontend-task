@@ -69,63 +69,65 @@ const AddScore = ({ data, onAddScore, error, loading }: Props) => {
 
   const errorMessages = Object.values(errors).map((error) => error.message);
   return (
-    <form
-      onSubmit={handleSubmit(handleAddScore)}
-      className='grid grid-cols-2 grid-rows-3 gap-3'
-    >
-      <Select
-        {...register('participantAId', {
-          required: 'Select home team',
-          ...validateHasPlayedAgainst,
-        })}
-        placeholder='Home Team'
-        setValue={(_, val) => setValue('participantAId', val)}
-        value={selectedHomeTeam}
-        options={getFilteredTeams(selectedAwayTeam)}
-      />
-      <Input
-        {...register('participantAScore', {
-          required: 'Enter home score',
-        })}
-        type='number'
-        inputMode='numeric'
-        placeholder='Home Score'
-        onKeyDown={sanitizeNumberInput}
-        min={0}
-      />
-      <Select
-        {...register('participantBId', {
-          required: 'Select away team',
-          ...validateHasPlayedAgainst,
-        })}
-        placeholder='Away Team'
-        setValue={(_, val) => setValue('participantBId', val)}
-        value={selectedAwayTeam}
-        options={getFilteredTeams(selectedHomeTeam)}
-      />
-      <Input
-        {...register('participantBScore', {
-          required: 'Enter away score',
-        })}
-        type='number'
-        inputMode='numeric'
-        placeholder='Away Score'
-        onKeyDown={sanitizeNumberInput}
-        min={0}
-      />
-      <Button
-        color='orange'
-        loading={loading}
-        type='submit'
-        className='col-span-2'
+    <>
+      <form
+        onSubmit={handleSubmit(handleAddScore)}
+        className='grid grid-cols-2 grid-rows-3 gap-3'
       >
-        Add Score
-      </Button>
+        <Select
+          {...register('participantAId', {
+            required: 'Select home team',
+            ...validateHasPlayedAgainst,
+          })}
+          placeholder='Home Team'
+          setValue={(_, val) => setValue('participantAId', val)}
+          value={selectedHomeTeam}
+          options={getFilteredTeams(selectedAwayTeam)}
+        />
+        <Input
+          {...register('participantAScore', {
+            required: 'Enter home score',
+          })}
+          type='number'
+          inputMode='numeric'
+          placeholder='Home Score'
+          onKeyDown={sanitizeNumberInput}
+          min={0}
+        />
+        <Select
+          {...register('participantBId', {
+            required: 'Select away team',
+            ...validateHasPlayedAgainst,
+          })}
+          placeholder='Away Team'
+          setValue={(_, val) => setValue('participantBId', val)}
+          value={selectedAwayTeam}
+          options={getFilteredTeams(selectedHomeTeam)}
+        />
+        <Input
+          {...register('participantBScore', {
+            required: 'Enter away score',
+          })}
+          type='number'
+          inputMode='numeric'
+          placeholder='Away Score'
+          onKeyDown={sanitizeNumberInput}
+          min={0}
+        />
+        <Button
+          color='orange'
+          loading={loading}
+          type='submit'
+          className='col-span-2'
+        >
+          Add Score
+        </Button>
+      </form>
       {errorMessages.map((message, idx) => (
         <ErrorMessage key={idx} message={message} />
       ))}
       {error && <ErrorMessage message={error} />}
-    </form>
+    </>
   );
 };
 export default AddScore;

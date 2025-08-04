@@ -63,57 +63,68 @@ const AddScore = ({ data, onAddScore, isLoading, error }: Props) => {
   const errorMessages = Object.values(errors).map((error) => error.message);
 
   return (
-    <form
-      onSubmit={handleSubmit(handleAddScore)}
-      className='flex flex-col rounded-md bg-gray-50 p-4'
-    >
-      <p className='mb-2 font-bold'>Add Score</p>
-      <div className='grid grid-cols-2 grid-rows-3 gap-2'>
-        <Select
-          {...register('participantAId', {
-            required: 'Select home team',
-            ...validateHasPlayedAgainst,
-          })}
-          placeholder='Home Team'
-          setValue={(_, val) => setValue('participantAId', val)}
-          value={selectedHomeTeam}
-          options={getFilteredTeams(selectedAwayTeam)}
-        />
-        <Select
-          {...register('participantBId', {
-            required: 'Select away team',
-            ...validateHasPlayedAgainst,
-          })}
-          placeholder='Away Team'
-          setValue={(_, val) => setValue('participantBId', val)}
-          value={selectedAwayTeam}
-          options={getFilteredTeams(selectedHomeTeam)}
-        />
-        <Input
-          {...register('participantAScore', { required: 'Enter home score' })}
-          type='number'
-          inputMode='numeric'
-          placeholder='Home Score'
-          onKeyDown={sanitizeNumberInput}
-          min={0}
-        />
-        <Input
-          {...register('participantBScore', { required: 'Enter away score' })}
-          type='number'
-          inputMode='numeric'
-          placeholder='Away Score'
-          onKeyDown={sanitizeNumberInput}
-          min={0}
-        />
-        <Button loading={isLoading} type='submit' className='col-span-2'>
-          Add Score
-        </Button>
-      </div>
+    <div className='mb-5 flex flex-col rounded-md bg-gray-50 p-4'>
+      <form onSubmit={handleSubmit(handleAddScore)}>
+        <p className='mb-2 font-bold'>Add Score</p>
+        <div className='grid gap-2 sm:grid-cols-2 sm:grid-rows-[min-content]'>
+          <div className='flex flex-col gap-2'>
+            <Select
+              {...register('participantAId', {
+                required: 'Select home team',
+                ...validateHasPlayedAgainst,
+              })}
+              placeholder='Home Team'
+              setValue={(_, val) => setValue('participantAId', val)}
+              value={selectedHomeTeam}
+              options={getFilteredTeams(selectedAwayTeam)}
+            />
+            <Input
+              {...register('participantAScore', {
+                required: 'Enter home score',
+              })}
+              type='number'
+              inputMode='numeric'
+              placeholder='Home Score'
+              onKeyDown={sanitizeNumberInput}
+              min={0}
+            />
+          </div>
+          <div className='flex flex-col gap-2'>
+            <Select
+              {...register('participantBId', {
+                required: 'Select away team',
+                ...validateHasPlayedAgainst,
+              })}
+              placeholder='Away Team'
+              setValue={(_, val) => setValue('participantBId', val)}
+              value={selectedAwayTeam}
+              options={getFilteredTeams(selectedHomeTeam)}
+            />
+            <Input
+              {...register('participantBScore', {
+                required: 'Enter away score',
+              })}
+              type='number'
+              inputMode='numeric'
+              placeholder='Away Score'
+              onKeyDown={sanitizeNumberInput}
+              min={0}
+            />
+          </div>
+          <Button
+            loading={isLoading}
+            type='submit'
+            className='sm:col-span-full'
+          >
+            Add Score
+          </Button>
+        </div>
+      </form>
       {errorMessages.map((message, idx) => (
         <ErrorMessage key={idx} message={message} />
       ))}
       {error && <ErrorMessage message={error} />}
-    </form>
+    </div>
   );
 };
 

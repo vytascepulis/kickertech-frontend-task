@@ -3,8 +3,8 @@ import EuroBasket from 'containers/EuroBasket';
 
 function App() {
   return (
-    <div className='flex h-screen items-center justify-center'>
-      {/*<PremierLeague />*/}
+    <div className='mt-[150px] flex h-screen flex-wrap items-start justify-center gap-[30px]'>
+      <PremierLeague />
       <EuroBasket />
     </div>
   );

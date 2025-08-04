@@ -23,6 +23,7 @@ const Table = <T,>({ columns, data, options }: Props<T>) => {
   );
 
   const onSort = (column: Column<T>) => {
+    if (!column.sortable) return;
     const nextSort = getNextSort(column, sort);
     if (!nextSort) {
       return setSort(undefined);
@@ -34,7 +35,7 @@ const Table = <T,>({ columns, data, options }: Props<T>) => {
   const renderSortIcon = (column: Column<T>) => {
     if (sort?.field !== column.key) return;
 
-    const arrowClassName = 'text-gray-600 text-sm';
+    const arrowClassName = 'text-sm';
 
     if (sort.order === 'asc') {
       return <FontAwesomeIcon className={arrowClassName} icon={faArrowUp} />;
@@ -45,25 +46,35 @@ const Table = <T,>({ columns, data, options }: Props<T>) => {
 
   return (
     <div className='overflow-x-auto'>
-      <div className={twMerge(rowClassName, options?.headerClassName)}>
-        {columns.map((column) => (
-          <button
-            key={column.key as string}
-            onClick={() => onSort(column)}
-            style={{ minWidth: `${column.width}px`, flex: 1 }}
-            className={twMerge('cursor-pointer text-center', column.className)}
-          >
-            {column.title}
-            {renderSortIcon(column)}
-          </button>
-        ))}
-      </div>
-      <div className='max-h-[300px] overflow-x-hidden overflow-y-auto'>
-        {handleSort(data, columns, sort).map((item, idx) => {
-          return (
+      <div className='min-w-max'>
+        <div
+          className={twMerge(
+            'flex pr-5!',
+            rowClassName,
+            options?.headerClassName
+          )}
+        >
+          {columns.map((column) => (
+            <button
+              key={column.key as string}
+              onClick={() => onSort(column)}
+              style={{ minWidth: `${column.width}px`, flex: 1 }}
+              className={twMerge(
+                column.sortable && 'cursor-pointer',
+                'text-center',
+                column.className
+              )}
+            >
+              {column.title}
+              {renderSortIcon(column)}
+            </button>
+          ))}
+        </div>
+        <div className='max-h-[300px] overflow-y-scroll'>
+          {handleSort(data, columns, sort).map((item, idx) => (
             <div
               key={idx}
-              className={twMerge(rowClassName, options?.rowClassName)}
+              className={twMerge('flex', rowClassName, options?.rowClassName)}
             >
               {columns.map((column) => {
                 const value = column.render
@@ -81,8 +92,8 @@ const Table = <T,>({ columns, data, options }: Props<T>) => {
                 );
               })}
             </div>
-          );
-        })}
+          ))}
+        </div>
       </div>
     </div>
   );
