@@ -10,8 +10,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "dev": "concurrently \"npm run vite\" \"npm run express:dev\"",
-    "prod": "concurrently \"npm run build\" \"npm run express:prod\""
+    "dev": "concurrently \"npm run vite\" \"npm run express:dev\""
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^7.0.0",

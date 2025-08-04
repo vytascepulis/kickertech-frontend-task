@@ -7,7 +7,7 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
 const app = express();
-const PORT = 3001;
+const PORT = 3000;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -25,13 +25,13 @@ function writeDB(data) {
   fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2));
 }
 
-app.get('/:game/data', (req, res) => {
+app.get('/api/:game/data', (req, res) => {
   const { game } = req.params;
   const db = readDB();
   res.json(db[game]);
 });
 
-app.post('/:game/participant', (req, res) => {
+app.post('/api/:game/participant', (req, res) => {
   const { game } = req.params;
   const db = readDB();
   const { name } = req.body;
@@ -41,7 +41,7 @@ app.post('/:game/participant', (req, res) => {
   res.status(201).json(db[game]);
 });
 
-app.post('/:game/score', (req, res) => {
+app.post('/api/:game/score', (req, res) => {
   const { game } = req.params;
   const {
     participantAId,
@@ -75,12 +75,18 @@ app.post('/:game/score', (req, res) => {
   res.status(200).json(db[game]);
 });
 
-app.delete('/:game', (req, res) => {
+app.delete('/api/:game', (req, res) => {
   const { game } = req.params;
   const db = readDB();
   db[game] = { participants: [], matches: [] };
   writeDB(db);
   res.status(200).json(db[game]);
+});
+
+app.use(express.static(path.join(__dirname, 'dist')));
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
 app.listen(PORT, () => {
