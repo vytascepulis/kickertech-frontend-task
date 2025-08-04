@@ -3,11 +3,9 @@ import EuroBasket from 'containers/EuroBasket';
 
 function App() {
   return (
-    <div className='flex justify-center'>
-      <div className='mt-[30px] grid gap-[30px] md:mt-[150px] md:grid-cols-2 lg:grid-cols-[repeat(3,minmax(250px,450px))]'>
-        <PremierLeague />
-        <EuroBasket />
-      </div>
+    <div className='mt-3 flex w-full flex-wrap items-start justify-center gap-3 p-3 sm:mt-[30px] sm:gap-[40px]'>
+      <PremierLeague />
+      <EuroBasket />
     </div>
   );
 }

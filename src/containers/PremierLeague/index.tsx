@@ -26,7 +26,7 @@ const PremierLeague = () => {
   }
 
   return (
-    <div className='max-w-[450px] rounded-xl border border-neutral-200 font-[inter] shadow-lg'>
+    <div className='w-full max-w-[500px] rounded-xl border border-neutral-200 font-[inter] shadow-lg'>
       <div className='flex justify-between rounded-t-xl bg-[#37003c] p-4 text-2xl font-semibold text-white'>
         Premier League
         <button

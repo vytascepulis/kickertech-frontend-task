@@ -15,7 +15,7 @@ interface Props<T> {
   options?: TableOptions<T>;
 }
 
-const rowClassName = 'flex flex-row w-full';
+const rowClassName = 'flex flex-row items-center w-full';
 
 const Table = <T,>({ columns, data, options }: Props<T>) => {
   const [sort, setSort] = useState<SortOptions<T> | undefined>(
@@ -46,7 +46,7 @@ const Table = <T,>({ columns, data, options }: Props<T>) => {
 
   return (
     <div className='overflow-x-auto'>
-      <div className='min-w-max'>
+      <div className='min-w-min'>
         <div
           className={twMerge(
             'flex pr-5!',
@@ -55,19 +55,18 @@ const Table = <T,>({ columns, data, options }: Props<T>) => {
           )}
         >
           {columns.map((column) => (
-            <button
+            <a
               key={column.key as string}
               onClick={() => onSort(column)}
               style={{ minWidth: `${column.width}px`, flex: 1 }}
               className={twMerge(
                 column.sortable && 'cursor-pointer',
-                'text-center',
                 column.className
               )}
             >
               {column.title}
               {renderSortIcon(column)}
-            </button>
+            </a>
           ))}
         </div>
         <div className='max-h-[300px] overflow-y-scroll'>
@@ -80,12 +79,11 @@ const Table = <T,>({ columns, data, options }: Props<T>) => {
                 const value = column.render
                   ? column.render(item)
                   : (item[column.key] as React.ReactNode);
-
                 return (
                   <div
                     key={`${column.key as string}-${idx}`}
                     style={{ minWidth: `${column.width}px`, flex: 1 }}
-                    className={twMerge('text-center', column.className)}
+                    className={twMerge(column.className)}
                   >
                     {value}
                   </div>
