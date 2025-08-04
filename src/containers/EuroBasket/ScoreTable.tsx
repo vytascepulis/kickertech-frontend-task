@@ -12,10 +12,9 @@ const columns: Column<TablePlayingEntity>[] = [
     className: 'text-start',
     render: ({ name }) => getMatchCountry(name),
   },
-  { title: 'P', key: 'matchesPlayed', width: 40, sortable: true },
   { title: 'W', key: 'wins', width: 40, sortable: true },
-  { title: 'D', key: 'draws', width: 40, sortable: true },
   { title: 'L', key: 'losses', width: 40, sortable: true },
+  { title: 'D', key: 'draws', width: 40, sortable: true },
   {
     title: 'Pts',
     key: 'points',

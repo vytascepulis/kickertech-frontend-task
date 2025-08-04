@@ -1,10 +1,6 @@
 import Select from 'components/Select';
 import Input from 'components/Input';
-import {
-  checkHasPlayedVersus,
-  getCountryByCode,
-  sanitizeNumberInput,
-} from 'utils.ts';
+import { checkHasPlayedVersus, sanitizeNumberInput } from 'utils.ts';
 import Button from 'components/Button';
 import ErrorMessage from 'components/ErrorMessage';
 import {
@@ -41,13 +37,10 @@ const AddScore = ({ data, onAddScore, error, loading }: Props) => {
     'participantBId',
   ]);
 
-  const getFilteredTeams = (filteredId: string) => {
+  const getFilteredPlayers = (filteredId: string) => {
     return [...data.participants]
       .filter((team) => team.id !== filteredId)
-      .map((team) => {
-        const country = getCountryByCode(team.name);
-        return { label: `${country?.emoji} ${country?.name}`, value: team.id };
-      });
+      .map((team) => ({ label: team.name, value: team.id }));
   };
 
   const validateHasPlayedAgainst: RegisterOptions<
@@ -62,7 +55,7 @@ const AddScore = ({ data, onAddScore, error, loading }: Props) => {
           data.matches,
           homeTeamEntity.id,
           participantBId
-        ) || 'Selected teams have already played each other'
+        ) || 'Selected players have already played each other'
       );
     },
   };
@@ -72,53 +65,53 @@ const AddScore = ({ data, onAddScore, error, loading }: Props) => {
     <>
       <form
         onSubmit={handleSubmit(handleAddScore)}
-        className='grid grid-rows-5 gap-3 md:grid-cols-2 md:grid-rows-3'
+        className='grid grid-cols-2 grid-rows-3 gap-3'
       >
         <Select
           {...register('participantAId', {
-            required: 'Select home team',
+            required: 'Select First Player',
             ...validateHasPlayedAgainst,
           })}
-          placeholder='Home Team'
+          placeholder='First Player'
           setValue={(_, val) => setValue('participantAId', val)}
           value={selectedHomeTeam}
-          options={getFilteredTeams(selectedAwayTeam)}
+          options={getFilteredPlayers(selectedAwayTeam)}
         />
         <Input
           {...register('participantAScore', {
-            required: 'Enter home score',
+            required: "Enter First Player's score",
           })}
           type='number'
           inputMode='numeric'
-          placeholder='Home Score'
+          placeholder={'Score'}
           onKeyDown={sanitizeNumberInput}
           min={0}
         />
         <Select
           {...register('participantBId', {
-            required: 'Select away team',
+            required: 'Select Second Player',
             ...validateHasPlayedAgainst,
           })}
-          placeholder='Away Team'
+          placeholder='Second Player'
           setValue={(_, val) => setValue('participantBId', val)}
           value={selectedAwayTeam}
-          options={getFilteredTeams(selectedHomeTeam)}
+          options={getFilteredPlayers(selectedHomeTeam)}
         />
         <Input
           {...register('participantBScore', {
-            required: 'Enter away score',
+            required: "Enter Second Player's score",
           })}
           type='number'
           inputMode='numeric'
-          placeholder='Away Score'
+          placeholder={'Score'}
           onKeyDown={sanitizeNumberInput}
           min={0}
         />
         <Button
-          color='orange'
+          color='purple'
           loading={loading}
           type='submit'
-          className='col-span-full'
+          className='col-span-2'
         >
           Add Score
         </Button>

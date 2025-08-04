@@ -43,7 +43,7 @@ const Select = ({
     <div
       {...rest}
       ref={containerRef}
-      className='relative w-full'
+      className='relative h-max w-full'
       tabIndex={0}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -53,13 +53,13 @@ const Select = ({
       }}
     >
       <div
-        className={`cursor-pointer rounded border border-gray-300 bg-gray-100 px-3 py-1 font-medium`}
+        className={`cursor-pointer rounded border border-gray-300 bg-gray-100 py-1 pr-[25px] pl-3 font-medium`}
         onClick={() => setIsOpen((open) => !open)}
       >
         {selectedOption ? selectedOption.label : placeholder}
         <FontAwesomeIcon
           icon={isOpen ? faChevronUp : faChevronDown}
-          className='tranform absolute top-[50%] right-[10px] -translate-y-[50%] text-sm text-gray-600'
+          className='tranform absolute top-[50%] right-[5px] -translate-y-[50%] text-sm text-gray-600'
         />
       </div>
 

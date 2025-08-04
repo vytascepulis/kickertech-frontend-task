@@ -1,13 +1,12 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBasketball, faTrash } from '@fortawesome/free-solid-svg-icons';
-import AddHandlers from 'containers/EuroBasket/AddHandlers.tsx';
+import { faBaseball, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Game } from 'constants.ts';
 import Spinner from 'components/Spinner';
 import useGame from 'hooks/useGame.ts';
-import Matches from 'containers/EuroBasket/Matches.tsx';
-import ScoreTable from 'containers/EuroBasket/ScoreTable.tsx';
+import AddHandlers from 'containers/Wimbledon/AddHandlers.tsx';
+import ScoreTable from 'containers/Wimbledon/ScoreTable.tsx';
 
-const EuroBasket = () => {
+const Wimbledon = () => {
   const {
     fakeLoading,
     gameData,
@@ -19,17 +18,17 @@ const EuroBasket = () => {
     onAddParticipant,
     onAddScore,
     onClearData,
-  } = useGame(Game.EuroBasket);
+  } = useGame(Game.Wimbledon);
 
   if (gameError) {
     return <p>{gameError}</p>;
   }
 
   return (
-    <div className='min-h-[300px] w-full max-w-[500px] rounded-lg bg-[#002e26] font-[montserrat] shadow-lg'>
-      <div className='flex justify-between p-4 text-2xl font-semibold text-white uppercase'>
+    <div className='w-full max-w-[500px] rounded-lg font-mono shadow-lg'>
+      <div className='flex justify-between rounded-t-lg bg-green-800 p-4 text-2xl font-semibold text-white'>
         <div>
-          <FontAwesomeIcon icon={faBasketball} className='mr-2' /> Eurobasket
+          <FontAwesomeIcon icon={faBaseball} className='mr-2' /> Wimbledon
         </div>
         <button
           onClick={onClearData}
@@ -40,7 +39,7 @@ const EuroBasket = () => {
       </div>
       {fakeLoading && <Spinner />}
       {!fakeLoading && gameData && (
-        <div className='p-4'>
+        <div className='p-[30px]'>
           <AddHandlers
             data={gameData}
             onAddParticipant={onAddParticipant}
@@ -50,7 +49,6 @@ const EuroBasket = () => {
             scoreError={scoreError}
             scoreLoading={scoreLoading}
           />
-          <Matches matches={gameData.matches} />
           <ScoreTable data={gameData} />
         </div>
       )}
@@ -58,4 +56,4 @@ const EuroBasket = () => {
   );
 };
 
-export default EuroBasket;
+export default Wimbledon;
