@@ -32,7 +32,7 @@ const useFetch = <TRes>() => {
     try {
       const res = await axios<TRes>({
         method,
-        url: `${import.meta.env.VITE_ENDPOINT_URL}/${endpoint}`,
+        url: `${import.meta.env.VITE_DEV_ENDPOINT_URL}/${endpoint}`,
         data,
       });
       onSuccess?.(res.data);
